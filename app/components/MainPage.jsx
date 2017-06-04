@@ -8,6 +8,11 @@ export default class MainPage extends React.Component {
     }
 
     render() {
-        return <div styleName="content">Themeable content</div>
+        return <div>
+            <div styleName="content">Themeable content</div>
+            <a href="?theme=red">Red theme</a>
+            &nbsp; &nbsp;
+            <a href="?theme=green">Green theme</a>
+            </div>
     }
 }

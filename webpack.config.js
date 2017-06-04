@@ -1,5 +1,6 @@
 const path = require('path');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const SassThemesCompilePlugin = require('./SassThemesCompilePlugin.js');
 
 const __PROD__ = process.env.NODE_ENV === 'production';
 const __DEV__ = process.env.NODE_ENV === 'development';
@@ -43,7 +44,10 @@ module.exports = {
                         options: {
                             syntax: 'postcss-scss',
                             plugins: [
-                                require('postcss-modules')
+                                require('postcss-modules')({
+                                    getJSON: (cssFileName, json) => {},
+                                    generateScopedName: '[path]___[name]__[local]___[hash:base64:5]',
+                                })
                             ]
                         }
                     }
@@ -56,7 +60,8 @@ module.exports = {
             filename: 'styles.scss',
             allChunks: true,
             ignoreOrder: true
-        })
+        }),
+        new SassThemesCompilePlugin()
     ],
     devtool: __DEV__ ? 'inline-source-map' : 'source-map'
 };
