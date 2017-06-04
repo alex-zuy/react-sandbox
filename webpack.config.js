@@ -28,7 +28,6 @@ module.exports = {
                     presets: ['es2015', 'react'],
                     plugins: [
                         ['babel-plugin-react-css-modules', {
-                            // removeImport: true,
                             filetypes: {
                                 '.scss': 'postcss-scss'
                             }
@@ -45,7 +44,9 @@ module.exports = {
                             syntax: 'postcss-scss',
                             plugins: [
                                 require('postcss-modules')({
-                                    getJSON: (cssFileName, json) => {},
+                                    getJSON: (cssFileName, json) => {
+                                        //no-op callback to avoid writing of class mapping json into file
+                                    },
                                     generateScopedName: '[path]___[name]__[local]___[hash:base64:5]',
                                 })
                             ]
