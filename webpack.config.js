@@ -29,7 +29,10 @@ module.exports = {
                     plugins: [
                         ['babel-plugin-react-css-modules', {
                             filetypes: {
-                                '.scss': 'postcss-scss'
+                                '.scss': {
+                                    syntax: 'postcss-scss',
+                                    plugins: ["postcss-nested"]
+                                }
                             }
                         }]
                     ]
@@ -38,31 +41,31 @@ module.exports = {
             {
                 test: /\.scss$/,
                 loader: ExtractTextPlugin.extract({
-                    use: {
-                        loader: 'postcss-loader',
-                        options: {
-                            syntax: 'postcss-scss',
-                            plugins: [
-                                require('postcss-modules')({
-                                    getJSON: (cssFileName, json) => {
-                                        //no-op callback to avoid writing of class mapping json into file
-                                    },
-                                    generateScopedName: '[path]___[name]__[local]___[hash:base64:5]',
-                                })
-                            ]
+                    use: [
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                modules: true,
+                                localIdentName: '[path]___[name]__[local]___[hash:base64:5]'
+                            }
+                        },
+                        {
+                            loader: 'sass-loader',
+                            options: {
+                                includePaths: ['./app/themes/']
+                            }
                         }
-                    }
+                    ]
                 })
             }
         ]
     },
     plugins: [
         new ExtractTextPlugin({
-            filename: 'styles.scss',
+            filename: 'styles.css',
             allChunks: true,
             ignoreOrder: true
-        }),
-        new SassThemesCompilePlugin()
+        })
     ],
     devtool: __DEV__ ? 'inline-source-map' : 'source-map'
 };
