@@ -25,6 +25,7 @@ module.exports = {
                 test: /\.jsx|\.js$/,
                 loader: 'babel-loader',
                 options: {
+                    sourceMaps: true,
                     presets: ['es2015', 'react'],
                     plugins: [
                         ['babel-plugin-react-css-modules', {
@@ -67,5 +68,6 @@ module.exports = {
             ignoreOrder: true
         })
     ],
-    devtool: __DEV__ ? 'inline-source-map' : 'source-map'
+    // devtool: __DEV__ ? 'inline-source-map' : 'source-map'
+    devtool: 'inline-source-map'
 };
