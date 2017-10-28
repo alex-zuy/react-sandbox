@@ -1,10 +1,9 @@
 import React from 'react';
 import Multiselect from '../app/components/Multiselect.jsx';
-import Enzyme, {mount} from 'enzyme';
-import Adapter from 'enzyme-adapter-react-14';
+import {mount} from 'enzyme';
 import _ from 'lodash-compat';
-
-Enzyme.configure({adapter: new Adapter()})
+import RenderingContainerSupport from './support/RenderingContainerSupport';
+import conf from './support/configureEnzyme';
 
 const OPTION_ONE = {value: 'one', title: 'One title'};
 const OPTION_TWO = {value: 'two', title: 'Two title'};
@@ -16,9 +15,20 @@ const OPTIONS_ONE_AND_TWO = [
 ];
 
 describe('Multiselect', () => {
+    const renderingContainerSupport = new RenderingContainerSupport();
+    renderingContainerSupport.setUpHooks();
+
+    let componentWrapper = null;
+
+    beforeEach(() => {
+    });
+
+    afterEach(() => {
+        componentWrapper.unmount();
+    });
 
     it('should show option titles in popup', () => {
-        const wrapper = givenMutliselect(
+        const wrapper = givenMultiselect(
             <Multiselect options={OPTIONS_ONE_AND_TWO} selected={[]} onSelect={_.noop()}/>
         );
         whenMultiselectOpened();
@@ -27,7 +37,7 @@ describe('Multiselect', () => {
     });
 
     it('should update options list when properties change', (done) => {
-        const wrapper = givenMutliselect(
+        const wrapper = givenMultiselect(
             <Multiselect options={OPTIONS_ONE_AND_TWO} onSelect={_.noop()}/>
         );
         wrapper.setProps({
@@ -40,8 +50,8 @@ describe('Multiselect', () => {
 
     });
 
-    function givenMutliselect(element) {
-        return mount(element, {attachTo: document.body});
+    function givenMultiselect(element) {
+        return componentWrapper = mount(element, {attachTo: renderingContainerSupport.getContainer()});
     }
 
     function whenMultiselectOpened() {
