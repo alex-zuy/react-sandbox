@@ -1,3 +1,5 @@
+import {mount} from 'enzyme';
+
 export default function RenderingContainerSupport() {
     let componentContainer = null;
 
@@ -16,4 +18,11 @@ export default function RenderingContainerSupport() {
     }
 
     this.getContainer = () => componentContainer;
+
+    this.mount = (component, options = {}) => {
+        return mount(
+            component,
+            _.assign({attachTo: componentContainer}, options)
+        );
+    }
 }

@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const SassThemesCompilePlugin = require('./SassThemesCompilePlugin.js');
 
@@ -66,6 +67,9 @@ module.exports = {
             filename: 'styles.css',
             allChunks: true,
             ignoreOrder: true
+        }),
+        new webpack.ProvidePlugin({
+            _: 'lodash'
         })
     ],
     // devtool: __DEV__ ? 'inline-source-map' : 'source-map'

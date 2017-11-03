@@ -1,7 +1,6 @@
 import React from 'react';
 import Multiselect from '../app/components/Multiselect.jsx';
 import {mount} from 'enzyme';
-import _ from 'lodash-compat';
 import RenderingContainerSupport from './support/RenderingContainerSupport';
 import conf from './support/configureEnzyme';
 
@@ -28,18 +27,18 @@ describe('Multiselect', () => {
     });
 
     it('should show option titles in popup', () => {
-        const wrapper = givenMultiselect(
-            <Multiselect options={OPTIONS_ONE_AND_TWO} selected={[]} onSelect={_.noop()}/>
-        );
+        const wrapper = givenMultiselect({
+            options: OPTIONS_ONE_AND_TWO
+        });
         whenMultiselectOpened();
         const options = getListedOptions();
         expect(options).toEqual([OPTION_ONE.title, OPTION_TWO.title]);
     });
 
     it('should update options list when properties change', (done) => {
-        const wrapper = givenMultiselect(
-            <Multiselect options={OPTIONS_ONE_AND_TWO} onSelect={_.noop()}/>
-        );
+        const wrapper = givenMultiselect({
+            options: OPTIONS_ONE_AND_TWO
+        });
         wrapper.setProps({
             options: [OPTION_ONE, OPTION_THREE]
         }, () => {
@@ -50,18 +49,61 @@ describe('Multiselect', () => {
 
     });
 
-    function givenMultiselect(element) {
-        return componentWrapper = mount(element, {attachTo: renderingContainerSupport.getContainer()});
+    it('should invoke callback when user changes selected options', () => {
+        const callback = jasmine.createSpy();
+        const wrapper = givenMultiselect({
+            options: OPTIONS_ONE_AND_TWO,
+            onSelect: callback
+        });
+        whenMultiselectOpened();
+        whenOptionsSelected([OPTION_ONE.title]);
+        whenMultiselectClosed();
+        expect(callback).toHaveBeenCalledWith([OPTION_ONE.value]);
+    });
+
+    function givenMultiselect(props = {}) {
+        const defaultProps = {
+            selected: [],
+            onSelect: _.noop()
+        };
+        return componentWrapper = renderingContainerSupport.mount(
+            <Multiselect {...(_.assign(defaultProps, props))}/>
+        );
     }
 
     function whenMultiselectOpened() {
-        jQuery('button.ui-multiselect').click();
+        findButton().click();
     }
 
+    function whenOptionsSelected(options) {
+        const items = findMultiselectOptionItems();
+        options.forEach(option =>
+            items.filter(`:contains(${option})`).find(':checkbox').click());
+    }
+
+    function whenMultiselectClosed() {
+        findButton().click();
+    }
+
+
     function getListedOptions() {
-        return jQuery('.ui-multiselect-menu .ui-multiselect-checkboxes li')
+        return findMultiselectOptionItems()
             .map((idx, el) =>
                 jQuery(el).text())
             .get();
+    }
+
+    function getSelectedOptions() {
+        return findMultiselectOptionItems()
+            .has('input[checked]')
+            .map((idx, el) => jQuery(el).text());
+    }
+
+    function findMultiselectOptionItems() {
+        return jQuery('.ui-multiselect-menu .ui-multiselect-checkboxes li');
+    }
+
+    function findButton() {
+        return jQuery('button.ui-multiselect');
     }
 });

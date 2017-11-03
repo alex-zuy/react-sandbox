@@ -1,6 +1,6 @@
 module.exports = function(config) {
     config.set({
-        basePath: '../',
+        basePath: __dirname,
         files: [
             './document-root/lib/*.js',
             './document-root/lib/*.css',
@@ -12,7 +12,8 @@ module.exports = function(config) {
             'karma-webpack',
             'karma-jasmine',
             'karma-sourcemap-loader',
-            'karma-jasmine-html-reporter'
+            'karma-jasmine-html-reporter',
+            'karma-chrome-launcher'
         ],
         frameworks: [
             'jasmine'
@@ -22,6 +23,6 @@ module.exports = function(config) {
             'test/**/*.test.js': ['webpack', 'sourcemap']
         },
         reporters: ['kjhtml'],
-        webpack: require('../webpack.config')
+        webpack: require('./webpack.config')
     });
 }
