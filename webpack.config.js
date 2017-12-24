@@ -1,7 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const SassThemesCompilePlugin = require('./SassThemesCompilePlugin.js');
 
 const __PROD__ = process.env.NODE_ENV === 'production';
 const __DEV__ = process.env.NODE_ENV === 'development';

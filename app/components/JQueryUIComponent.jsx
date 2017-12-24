@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import _ from 'lodash-compat';
+import _ from 'lodash';
 
 class JQueryUIComponent extends Component {
 

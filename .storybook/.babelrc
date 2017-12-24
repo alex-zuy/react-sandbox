@@ -1,0 +1,22 @@
+{
+  "sourceMaps": true,
+  "presets": [
+    "es2015",
+    "react"
+  ],
+  "plugins": [
+    [
+      "babel-plugin-react-css-modules",
+      {
+        "filetypes": {
+          ".scss": {
+            "syntax": "postcss-scss",
+            "plugins": [
+              "postcss-nested"
+            ]
+          }
+        }
+      }
+    ]
+  ]
+}

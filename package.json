@@ -6,11 +6,16 @@
   "scripts": {
     "build-prod": "NODE_ENV=production webpack",
     "build-dev-watch": "NODE_ENV=development webpack --watch",
-    "static-server": "light-server --serve document-root --proxy http://localhost:4050"
+    "static-server": "light-server --serve document-root --proxy http://localhost:4050",
+    "storybook": "NODE_ENV=development start-storybook -p 9001 -c .storybook -s document-root",
+    "build-storybook": "build-storybook"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@storybook/addon-actions": "^3.2.19",
+    "@storybook/addon-links": "^3.2.19",
+    "@storybook/react": "^3.2.19",
     "babel-core": "^6.24.1",
     "babel-loader": "^7.0.0",
     "babel-preset-env": "^1.5.1",
@@ -18,7 +23,6 @@
     "babel-preset-react": "^6.24.1",
     "css-loader": "^0.28.7",
     "enzyme": "^3.1.0",
-    "enzyme-adapter-react-14": "^1.0.2",
     "enzyme-adapter-react-15": "^1.0.2",
     "extract-text-webpack-plugin": "^2.1.0",
     "jasmine-core": "^2.8.0",
@@ -37,13 +41,15 @@
     "postcss-scss": "^1.0.0",
     "raw-loader": "^0.5.1",
     "sass-loader": "^6.0.6",
-    "webpack": "^2.6.1"
+    "style-loader": "^0.19.1",
+    "webpack": "^2.6.1z"
   },
   "dependencies": {
     "babel-plugin-react-css-modules": "^3.3.0",
     "babel-polyfill": "^6.23.0",
     "lodash": "^3.10.0",
-    "react": "^0.14.8",
-    "react-dom": "^0.14.8"
+    "react": "^15.0.0",
+    "react-dom": "^15.0.0",
+    "storybook": "^1.0.0"
   }
 }
