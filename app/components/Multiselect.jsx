@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import _ from 'lodash-compat';
+import _ from 'lodash';
 import JQueryUIComponent from './JQueryUIComponent.jsx';
 
 const EMPTY_OPTION_VALUE = '';
